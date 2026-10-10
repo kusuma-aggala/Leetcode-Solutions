@@ -1,0 +1,35 @@
+class Solution:
+    def minSumSquareDiff(self, nums1, nums2, k1, k2):
+        # Find differences
+        d=[abs(a-b) for a,b in zip(nums1,nums2)]
+        '''for i in range(0,len(nums1)):
+            diff=abs(nums1[i]-nums2[i])
+            d.append(diff)'''
+        # Total operations
+        k = k1 + k2
+        largest = max(d)
+        if sum(d) <= k:
+            return 0
+        # Create buckets
+        bucket = [0] * (largest + 1)
+
+        for x in d:
+            bucket[x] += 1
+
+        #Reduce largest differences first
+        for i in range(largest, 0, -1):
+            take = min(bucket[i], k)
+
+            bucket[i] -= take
+            bucket[i - 1] += take
+            k -= take
+
+            if k == 0:
+                break
+
+        #  Calculate sum of squared differences
+        answer = 0
+        for i in range(len(bucket)):
+            answer += i * i * bucket[i]
+
+        return answer
