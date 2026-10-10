@@ -1,0 +1,16 @@
+class Solution(object):
+    def minInsertions(self, s):
+        depth=0
+        count=0
+        for i in s:
+            if i=="(":
+                depth=depth+2
+                if depth%2!=0:
+                    count+=1
+                    depth-=1
+            elif i==")":
+                depth=depth-1
+                if depth<0:
+                    count+=1
+                    depth=1
+        return count+depth
